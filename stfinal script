@@ -1,0 +1,39 @@
+# set working directory
+setwd("~/Desktop/sta215")
+
+#install "haven" package
+install.packages("haven")
+
+#load "haven" package
+library("readr")
+
+#load the data
+stfinal <- read_delim("raw_data.csv.csv")
+
+#table 2: contingency table
+table(stfinal$anger, stfinal$content)
+
+#figure 1: boxplot
+boxplot(stfinal$flashbacks, stfinal$music)
+boxplot(stfinal$music, stfinal$flashbacks)
+
+#anova
+anova <- aov(flashbacks ~ music, data = stfinal)
+summary(anova)
+
+#figure 2: scatter plot
+plot(stfinal$deaths, stfinal$will)
+linear_relationship <- lm(deaths ~ will, data = stfinal)
+summary(linear_relationship)
+abline(linear_relationship)
+# add x line and y line for means
+meany <- mean(stfinal$will)
+meanx <- mean(stfinal$deaths)
+
+abline(v = meanx, col = "black")
+abline(h = meany, col = "black")
+
+#figure 3: residual plot
+plot(stfinal$deaths, residuals(linear_relationship))
+plot(stfinal$will, residuals(linear_relationship))
+abline(h = 0, col = "black")
